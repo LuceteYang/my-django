@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+	<li>제목| 저자 | 날짜
+	{% for article in articleList %}
+	<!-- <li><a href="/view/{{article.id}}"> {{ article.title }}</a> | {{ article.name }} | {{ article.cdate|date:"D d M Y"}}</li> -->
+	<li><a href="{% url 'blog:view' article.id %}"> {{ article.title }}</a> | {{ article.name }} | {{ article.cdate|date:"D d M Y"}}</li>
+
+	{% endfor %}
+{% endblock %}

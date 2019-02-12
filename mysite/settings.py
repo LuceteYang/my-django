@@ -23,13 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dh7ia8)q-29ntdtajmxgybu^_rkg1s03lx=#uv=4f@#r(1cl05'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# 배포시 False
 DEBUG = True
 
 ALLOWED_HOSTS =['127.0.0.1', '.pythonanywhere.com']
 
 
 # Application definition
-
+# 앱 동록
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
+    'blog', 
 ]
 
 MIDDLEWARE = [
@@ -100,6 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = '/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -120,3 +122,59 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format' : '%(levelname)s %(message)s'
+        },
+        'verbose': {
+            # exact format is not important, this is the minimum information
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'filters': {
+        # 'special': {
+            # '()': 'project.logging.SpecialFilter',
+            # 'foo': 'bar',
+        # },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/logfile'),
+            'formatter': 'verbose'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'logging.NullHandler',
+        #     'class': 'django.utils.log.AdminEamilHandler'
+        },
+
+    },
+    'loggers': {
+        #'django.db.backends' 데이터베이스 관련 메시지 기록 duration, sql, params
+        #'django.security.*' 사용자 보안 측면에서 해를 끼칠수 있는 동작을 실행한 경우
+        'django.request' : {    #요청처리와 관련된 메시지를 기록 추가 메타 항목 status_code, request
+            'handlers': ['mail_admins','console','file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'blog': {
+            'level': 'DEBUG',
+            'handlers': ['file','console'],
+        }
+    }
+}

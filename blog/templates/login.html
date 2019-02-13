@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if form.errors %}
-        <p>이름과 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</p>
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <p class="text-danger"><b>{{ error }}</b></p>
+        {% endfor %}
     {% endif %}
 
-    <form method="post" action="{% url 'login' %}">
+    <form method="post" action="{% url 'blog:login' %}">
     {% csrf_token %}
         <table>
         <tr>

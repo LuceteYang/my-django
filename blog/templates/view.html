@@ -7,7 +7,7 @@
 <body>
 	제목 : {{ article.title }} 
 	<br>
-	저자 :  {{ article.name }} 
+	저자 :  {{ article.user }} 
 	<br>
 	내용 : {{ article.contents}}
 	<br>
@@ -16,6 +16,11 @@
     {% if article.cdate %}
         <div class="date">
             {{ article.cdate }}
+        </div>
+    {% endif %}
+    {% if article.image %}
+        <div class="date">
+            <p><img style="width: 300px;height: 300px;" src="{{article.image.url}}" /></p>
         </div>
     {% endif %}
     <a class="btn btn-default" href="{% url 'blog:article_remove' pk=article.pk %}">삭제</a>

@@ -9,6 +9,7 @@ urlpatterns = [
     # 순서에 따라 먼저 탐
     path('', views.ListView.as_view(), name='list'),
     path('json-response/', views.get_json_response),
+    path('json-model-response/', views.ListArticles.as_view()),
     url(r'^write/$', login_required(views.WriteView.as_view()), name='write'),
     url(r'^view/(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='view'),	# pk변수에 모든 값을 넣어 뷰로 전송하겠다는 뜻입니다. \d은 문자를 제외한 숫자
     url(r'^hello/$', views.hello),

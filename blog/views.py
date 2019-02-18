@@ -4,6 +4,9 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from . import serializers
 
 import logging
 
@@ -24,7 +27,12 @@ def get_json_response(request):
 		'title': 'JsonResponse 타이틀',
 		 },
 		json_dumps_params={'ensure_ascii': False})
+	
+class ListArticles(APIView):
 
+    def get(self, request, format=None):
+    	serializer = serializers.ArticleSerializer(Article.objects.all().order_by('cdate'), many=True)
+    	return Response(data=serializer.data)
 
 @login_required
 def write(request):

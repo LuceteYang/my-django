@@ -10,3 +10,4 @@ secrets.json
 base.py
 local.py
 production.py
+uploads/
